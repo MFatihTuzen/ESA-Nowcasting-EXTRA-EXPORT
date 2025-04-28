@@ -2,7 +2,8 @@
 # Entry 2: Univariate Tramo Model
 
 # modelling loop ----------------------------------------------------------
-
+# create empty lists for loops
+# 
 nowcast_list_uv <- list()
 tramo_list_uv <- list()
 dependent_list_uv <- list()
@@ -67,6 +68,7 @@ process <- 0
       
     }
 
+# combine nowcast results into one table
 nowcast_results_uv_all <- tibble(bind_rows(nowcast_list_uv)) |> 
   mutate(Model = "TRAMO_UV")
 

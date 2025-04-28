@@ -1,7 +1,7 @@
 
 # y (Industrial Production Index (IPI)) ------------------------------------------------------------------
 
-# impute missing data of hicp for last period
+# impute missing data of ipi for last periods
 
 last_data_ipi <- max(ipi$TIME_PERIOD)
 non_missing_countries_ipi <- ipi |> 
@@ -32,7 +32,7 @@ y_rebase <- ipi_imputed |>
   ungroup() |> 
   select(country_code = geo,TIME_PERIOD,index,Year)
 
-# get industrial production index by weighting foreign trade for every country
+# get foreign industrial production index by using trade weights for every country
 y_star <- get_star_reg(y_rebase,trade_weights)
 
 ## er_star (exchange rates) -----------------------------------------------------------------
@@ -45,7 +45,7 @@ er_rebase <- exc_rate |>
   mutate(Year = year(TIME_PERIOD)) |> 
   select(country_code = geo,TIME_PERIOD,index,Year)
 
-# get exchange rates by weighting foreign trade for every country
+# get foreign exchange rates by using trade weights for every country
 er_star <- get_star_reg(er_rebase, trade_weights)
 
 
@@ -80,7 +80,7 @@ hicp_rebase <- hicp_imputed |>
   select(country_code = geo,TIME_PERIOD,index,Year)
   
 
-# get Harmonised Index of Consumer Prices by weighting foreign trade for every country
+# get foreign Harmonised Index of Consumer Prices by using trade weights for every country
 
 rel_dp <- get_star_reg(hicp_rebase,trade_weights) |> 
   pivot_longer(cols = -c(Date), names_to = "country_code", values_to = "index") |>
@@ -98,19 +98,19 @@ rel_dp <- get_star_reg(hicp_rebase,trade_weights) |>
 
 ## y_star2 (Industrial Production Index (IPI)) -----------------------------------------------------------------
 
-# get Industrial Production Index (IPI) by weighting foreign trade for non-eu countries
+# get foreign Industrial Production Index (IPI) by using trade weights of non-eu countries
 
 y_star2 <- get_star_reg(y_rebase,trade_weights_non_eu)
 
 ## er_star2 (exchange rates) -----------------------------------------------------------------
 
-# get exchange rates by weighting foreign trade for non-eu countries
+# get foreign exchange rates by using trade weights of non-eu countries
 
 er_star2 <- get_star_reg(er_rebase,trade_weights_non_eu)
 
 ## rel_dp2 (Relative Harmonised Index of Consumer Prices (HICP)) ------------------------------------------------------------------
 
-# get Harmonised Index of Consumer Prices by weighting foreign trade for non-eu countries
+# get foreign Harmonised Index of Consumer Prices by using trade weights of non-eu countries
 
 rel_dp2 <- get_star_reg(hicp_rebase,trade_weights_non_eu) |> 
   pivot_longer(cols = -c(Date), names_to = "country_code", values_to = "index") |>
@@ -127,7 +127,7 @@ rel_dp2 <- get_star_reg(hicp_rebase,trade_weights_non_eu) |>
   select(Date, all_of(countries))
 
 
-# EXTRA-EXPORT ----
+# EXTRA-EXPORT target data ----
 
 target <- extra_exp |> 
   pivot_wider(id_cols = TIME_PERIOD,

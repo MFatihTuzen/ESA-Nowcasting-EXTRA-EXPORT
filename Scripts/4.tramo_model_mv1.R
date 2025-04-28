@@ -1,13 +1,16 @@
 
 # Entry 1: Multivarite Tramo Model 1, regressors created with trade weights of all countries 
 
-# modelling loop ----------------------------------------------------------
+# import target and regressors
 
 target <- import_data(indicator = "target", period = nowcast_period)
 y_star <- import_data(indicator = "y_star", period = nowcast_period)
 rel_dp <- import_data(indicator = "rel_dp", period = nowcast_period)
 er_star <- import_data(indicator = "er_star", period = nowcast_period)
 regressors <- rbind(rel_dp,er_star,y_star)
+
+# modelling loop ----------------------------------------------------------
+# create empty lists for loops
 
 nowcast_list_mv <- list()
 tramo_list_mv <- list()
@@ -124,7 +127,7 @@ process <- 0
       
     }
 
-
+# combine nowcast results into one table
 nowcast_results_mv1_all <- tibble(bind_rows(nowcast_list_mv)) |> 
   mutate(Model = "TRAMO_MV1")
 

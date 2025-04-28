@@ -2,11 +2,14 @@
 
 # Entry 5: Multivariate Tramo Model 2, regressors created with trade weights of non-eu countries 
 
-# modelling loop ----------------------------------------------------------
+# # import foreign regressors for Tramo Model 2
 rel_dp2 <- import_data(indicator = "rel_dp2", period = nowcast_period)
 er_star2 <- import_data(indicator = "er_star2", period = nowcast_period)
 y_star2 <- import_data(indicator = "y_star2", period = nowcast_period)
 regressors2 <- rbind(rel_dp2,er_star2,y_star2)
+
+# modelling loop ----------------------------------------------------------
+# create empty lists for loops
 
 nowcast_list_mv2 <- list()
 tramo_list_mv2 <- list()
@@ -128,7 +131,7 @@ for (countrycode in country_codes){
   
 }
 
-
+# combine nowcast results into one table
 nowcast_results_mv2_all <- tibble(bind_rows(nowcast_list_mv2)) |> 
   mutate(Model = "TRAMO_MV2")
 
